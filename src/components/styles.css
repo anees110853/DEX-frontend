@@ -1,0 +1,43 @@
+/* Background, font, and spacing styles for the wallet card */
+.wallet-card {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    padding: 24px;
+    background-color: #ffffff; /* White background for card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: center;
+    transition: box-shadow 0.3s ease; /* Animation for hover */
+  }
+  
+  /* Slightly darken shadow on hover */
+  .wallet-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Styling for the title (Connected Address) */
+  .wallet-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333333; /* Dark gray color */    margin-bottom: 12px;
+    font-family: 'Roboto', sans-serif; /* Custom font */
+  }
+  
+  /* Styling for the wallet address text */
+  .wallet-address {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ff4081; /* Pink accent for the address */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for addresses */
+    background-color: #f9f9f9; /* Light background for contrast */
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: inline-block; /* Makes the background only wrap around text */
+  }
+  
+  /* Responsive Design: Adjust card width on smaller screens */
+  @media (max-width: 480px) {
+    .wallet-card {
+      width: 90%; /* Full width with some padding on smaller screens */
+    }
+  }
+  
