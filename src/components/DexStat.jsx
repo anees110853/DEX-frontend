@@ -9,8 +9,7 @@ import {
 import "./styles.css"; // Import your external CSS
 import { dexContract } from "../configs/contract.config";
 
-const DexStat = () => {
-  // State variables to store statistics
+const DexStat = ({ setOwner }) => {
   const [dexStats, setDexStats] = useState({
     FEE_DENOMINATOR: 0,
     FEE_MULTIPLIER: 0,
@@ -27,10 +26,47 @@ const DexStat = () => {
   const [userLiquidity, setUserLiquidity] = useState(0);
 
   const getDEXStats = async () => {
-    const dex = await dexContract();
-    console.log("dex", dex);
-    const totalLiquidity = await dex.totalLiquidity();
-    console.log("total", totalLiquidity);
+    try {
+      const dex = await dexContract();
+
+      // Fetch all DEX statistics
+      const FEE_DENOMINATOR = (await dex.FEE_DENOMINATOR()).toString();
+      const FEE_MULTIPLIER = (await dex.FEE_MULTIPLIER()).toString();
+      const FEE_PERCENTAGE = (await dex.FEE_PERCENTAGE()).toString();
+      const owner = await dex.owner();
+      const tokenA = await dex.tokenA();
+      const tokenB = await dex.tokenB();
+      const tokenABalance = (await dex.tokenABalance()).toString();
+      const tokenBBalance = (await dex.tokenBBalance()).toString();
+      const totalLiquidity = (await dex.totalLiquidity()).toString();
+
+      // Update the state with the fetched values
+      setOwner(owner);
+
+      setDexStats({
+        FEE_DENOMINATOR,
+        FEE_MULTIPLIER,
+        FEE_PERCENTAGE,
+        owner,
+        tokenA,
+        tokenB,
+        tokenABalance,
+        tokenBBalance,
+        totalLiquidity,
+      });
+    } catch (error) {
+      console.error("Error fetching DEX stats:", error);
+    }
+  };
+
+  const handleFetchUserLiquidity = async () => {
+    try {
+      const dex = await dexContract();
+      const liquidity = await dex.userLiquidity(userAddress);
+      setUserLiquidity(liquidity.toString());
+    } catch (error) {
+      console.error("Error fetching user liquidity:", error);
+    }
   };
 
   useEffect(() => {
@@ -40,30 +76,48 @@ const DexStat = () => {
   return (
     <Card className="dex-card">
       <CardContent>
-        <Typography className="dex-title" variant="h6">
+        <Typography
+          className="dex-title"
+          variant="h6"
+          color="primary"
+          textAlign="center"
+          fontWeight="bold"
+        >
           DEX Statistics
         </Typography>
         <div className="dex-stats">
           <Typography variant="body1">
-            FEE_DENOMINATOR: {dexStats.FEE_DENOMINATOR}
+            <span className="stat-heading"> FEE_DENOMINATOR:</span>{" "}
+            {dexStats.FEE_DENOMINATOR}
           </Typography>
           <Typography variant="body1">
-            FEE_MULTIPLIER: {dexStats.FEE_MULTIPLIER}
+            <span className="stat-heading">FEE_MULTIPLIER:</span>{" "}
+            {dexStats.FEE_MULTIPLIER}
           </Typography>
           <Typography variant="body1">
-            FEE_PERCENTAGE: {dexStats.FEE_PERCENTAGE}%
-          </Typography>
-          <Typography variant="body1">Owner: {dexStats.owner}</Typography>
-          <Typography variant="body1">Token A: {dexStats.tokenA}</Typography>
-          <Typography variant="body1">Token B: {dexStats.tokenB}</Typography>
-          <Typography variant="body1">
-            Token A Balance: {dexStats.tokenABalance}
+            <span className="stat-heading">FEE_PERCENTAGE:</span>{" "}
+            {dexStats.FEE_PERCENTAGE}%
           </Typography>
           <Typography variant="body1">
-            Token B Balance: {dexStats.tokenBBalance}
+            <span className="stat-heading">Owner:</span> {dexStats.owner}
           </Typography>
           <Typography variant="body1">
-            Total Liquidity: {dexStats.totalLiquidity}
+            <span className="stat-heading">Token A:</span> {dexStats.tokenA}
+          </Typography>
+          <Typography variant="body1">
+            <span className="stat-heading">Token B:</span> {dexStats.tokenB}
+          </Typography>
+          <Typography variant="body1">
+            <span className="stat-heading">Token A Balance:</span>{" "}
+            {dexStats.tokenABalance}
+          </Typography>
+          <Typography variant="body1">
+            <span className="stat-heading">Token B Balance:</span>{" "}
+            {dexStats.tokenBBalance}
+          </Typography>
+          <Typography variant="body1">
+            <span className="stat-heading">Total Liquidity:</span>{" "}
+            {dexStats.totalLiquidity}
           </Typography>
         </div>
 
@@ -83,7 +137,7 @@ const DexStat = () => {
           <Button
             variant="contained"
             color="primary"
-            // onClick={handleFetchUserLiquidity}
+            onClick={handleFetchUserLiquidity}
             style={{ marginTop: "16px" }}
           >
             Fetch User Liquidity
@@ -91,7 +145,8 @@ const DexStat = () => {
 
           {userLiquidity !== 0 && (
             <Typography variant="body1" style={{ marginTop: "12px" }}>
-              User Liquidity: {userLiquidity}
+              <span className="stat-heading">User Liquidity:</span>{" "}
+              {userLiquidity}
             </Typography>
           )}
         </div>

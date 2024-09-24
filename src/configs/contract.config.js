@@ -3,8 +3,6 @@ import tokenAContractAbi from "../ABI/tokenA.json";
 import tokenBContractAbi from "../ABI/tokenB.json";
 import dexContractAbi from "../ABI/dex.json";
 
-console.log("Environment Variables:", process.env);
-
 let provider, signer;
 
 const getProviderAndSigner = async () => {
@@ -39,7 +37,6 @@ const tokenBContract = async () => {
 
 // Instantiate DEX Contract
 const dexContract = async () => {
-  console.log(process.env.REACT_APP_DEX_ADDRESS);
   return await getContract(process.env.REACT_APP_DEX_ADDRESS, dexContractAbi);
 };
 

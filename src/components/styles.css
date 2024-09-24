@@ -41,3 +41,44 @@
     }
   }
   
+
+
+  .dex-card {
+    background-color: #f0f4f8; /* Light background color */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    padding: 20px;
+  }
+  
+  .dex-title {
+    font-size: 24px; /* Larger font size for the title */
+    font-weight: bold;
+    color: #2c3e50; /* Darker color for better readability */
+    margin-bottom: 16px;
+  }
+  
+  .dex-stats {
+    font-size: 16px; /* Standard font size for stats */
+    color: #34495e; /* Muted color for the stats */
+    line-height: 1.5;
+  }
+  
+  .user-liquidity {
+    margin-top: 24px;
+  }
+  
+  .liquidity-title {
+    font-size: 20px; /* Slightly larger heading */
+    color: #2c3e50;
+    margin-bottom: 16px;
+  }
+  
+  .user-address {
+    margin-bottom: 16px;
+  }
+  
+  .stat-heading{
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0% 1% 0% 0%;
+  }
